@@ -23,8 +23,9 @@ produces:
 paths:
   '{{{ SIMPLEAPI_BASEPATH }}}/':
     get:
+      summary: Retrieve bibliographic data as JSON scraped from a URI
       description: |
-        Retrieve bibliographic data as JSON scraped from a URI
+        Combines the `/web` and `/export` endpoints to let the consumer define the desired output format
       parameters:
         - name: format
           in: query
@@ -36,8 +37,10 @@ paths:
           pattern: uri
   '{{{ ZTS_BASEPATH }}}/refresh':
     get:
+      summary: Refreshes the translator directory
       description: |
-        Refreshes the translator directory
+        <del>Refreshes the translator directory by calling git.</del> Translators are managed on the level of
+        zts-in-a-box.
       responses:
         200:
           description: Success
@@ -45,8 +48,7 @@ paths:
           description: Failure, depending upon git exit status
   '{{{ ZTS_BASEPATH }}}/web':
     post:
-      description: |
-        Translates a web page
+      summary: Translates a web page
       parameters:
         - 
           name: webrequest
@@ -60,8 +62,7 @@ paths:
           description: Ok
   '{{{ ZTS_BASEPATH }}}/import':
     post:
-      description: |
-        Converts input in any format Zotero can import to items in Zotero server JSON format
+      summary: Converts input in any format Zotero can import to items in Zotero server JSON format
       parameters:
         -
           name: importrequest
@@ -75,8 +76,7 @@ paths:
           description: Ok
   '{{{ ZTS_BASEPATH }}}/export':
     post:
-      description: |
-        Converts input in Zotero server JSON format to items Zotero can import
+      summary: Converts input in Zotero server JSON format to items Zotero can import
       parameters:
         -
           name: exportrequest
