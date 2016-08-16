@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/kba/zts-in-a-box#readme",
   "dependencies": {
+    "coffee-script": "^1.10.0",
     "express": "^4.14.0",
     "http-proxy-middleware": "^0.17.1",
     "morgan": "^1.7.0",
@@ -29,7 +30,6 @@
     "traf": "0.0.8"
   },
   "devDependencies": {
-    "coffee-script": "^1.10.0",
     "nodemon": "^1.10.0",
     "supertest": "^2.0.0",
     "tape": "^4.6.0"
