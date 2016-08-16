@@ -1,0 +1,37 @@
+{
+  "name": "zts-simpleapi",
+  "version": "0.0.1",
+  "description": "Simple HTTP API to Zotero ",
+  "main": "lib/server.js",
+  "scripts": {
+    "compile": "coffee -o . src",
+    "prepublish": "npm run compile",
+    "test": "coffee src/test/*.coffee",
+    "start": "coffee src/lib/server.coffee",
+    "watch": "nodemon -w src -e coffee,yml src/lib/server.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kba/zts-in-a-box.git"
+  },
+  "author": "kba",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/kba/zts-in-a-box/issues"
+  },
+  "homepage": "https://github.com/kba/zts-in-a-box#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "http-proxy-middleware": "^0.17.1",
+    "morgan": "^1.7.0",
+    "mustache": "^2.2.1",
+    "superagent": "^2.2.0",
+    "traf": "0.0.8"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "nodemon": "^1.10.0",
+    "supertest": "^2.0.0",
+    "tape": "^4.6.0"
+  }
+}

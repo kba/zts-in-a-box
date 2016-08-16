@@ -1,2 +1,2 @@
 # zts-in-a-box
-Zotero Translation Server + Simpler API + Swager in Docker
+Zotero Translation Server + Simple Scraping API + Swagger in Docker

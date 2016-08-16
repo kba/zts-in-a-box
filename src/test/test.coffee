@@ -1,0 +1,1 @@
+Test = require 'tape'
