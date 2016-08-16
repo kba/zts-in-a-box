@@ -1,8 +1,9 @@
 Fs = require 'fs'
 Mustache = require 'mustache'
+RootPath = require 'app-root-path'
 {TRAF} = require 'traf'
 
-swaggerString = Mustache.render(Fs.readFileSync("#{__dirname}/../swagger/zts.swagger.yml", encoding:'utf-8'), process.env)
+swaggerString = Mustache.render(Fs.readFileSync("#{RootPath}/zts.swagger.yml", encoding:'utf-8'), process.env)
 swaggerObject = TRAF.parseSync swaggerString, {format: 'YAML'}
 swaggerYAML = TRAF.stringifySync swaggerObject, {format: 'YAML'}
 swaggerJSON = TRAF.stringifySync swaggerObject, {format: 'JSON'}
