@@ -21,6 +21,19 @@ produces:
 #    PATHS   #
 ##############
 paths:
+  '{{{ SIMPLEAPI_BASEPATH }}}/':
+    get:
+      description: |
+        Retrieve bibliographic data as JSON scraped from a URI
+      parameters:
+        - name: format
+          in: query
+          schema:
+            $ref: '#/definitions/Format'
+        - name: url
+          in: query
+          type: string
+          pattern: uri
   '{{{ ZTS_BASEPATH }}}/refresh':
     get:
       description: |
@@ -74,19 +87,8 @@ paths:
         - name: format
           in: query
           required: true
-          type: string
-          enum:
-            - bibtex
-            - bookmarks
-            - coins
-            - mods
-            - refer
-            - rdf_bibliontology
-            - rdf_dc
-            - rdf_zotero
-            - ris
-            - tei
-            - wikipedia
+          schema:
+            $ref: '#/definitions/Format'
       responses:
         200:
           description: Ok
@@ -108,6 +110,21 @@ definitions:
         "url":"http://www.tandfonline.com/doi/abs/10.1080/15424060903167229",
         "sessionid":"abc123"
       }
+  Format:
+    type: string
+    example: ris
+    enum:
+      - bibtex
+      - bookmarks
+      - coins
+      - mods
+      - refer
+      - rdf_bibliontology
+      - rdf_dc
+      - rdf_zotero
+      - ris
+      - tei
+      - wikipedia
   File:
     type: string
     example: |
