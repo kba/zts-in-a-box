@@ -30,12 +30,28 @@ paths:
       parameters:
         - name: format
           in: query
-          schema:
-            $ref: '#/definitions/Format'
+          type: string
+          # Not possible in Swagger 2.0, will be in 3.0
+          # enum:
+          #   - doi
+          #   - bibtex
+          #   - bookmarks
+          #   - coins
+          #   - mods
+          #   - refer
+          #   - rdf_bibliontology
+          #   - rdf_dc
+          #   - rdf_zotero
+          #   - ris
+          #   - tei
+          #   - wikipedia
         - name: url
           in: query
           type: string
           pattern: uri
+      responses:
+        200:
+          description: Formatted bibliographic record(s)
   '{{{ SIMPLEAPI_BASEPATH }}}/cache':
     get:
       tags: ['Simple Scraper API']
@@ -105,8 +121,21 @@ paths:
         - name: format
           in: query
           required: true
-          schema:
-            $ref: '#/definitions/Format'
+          type: string
+          # Not possible in Swagger 2.0, will be in 3.0
+          # example: ris
+          # enum:
+          #   - bibtex
+          #   - bookmarks
+          #   - coins
+          #   - mods
+          #   - refer
+          #   - rdf_bibliontology
+          #   - rdf_dc
+          #   - rdf_zotero
+          #   - ris
+          #   - tei
+          #   - wikipedia
       responses:
         200:
           description: Ok
@@ -128,21 +157,6 @@ definitions:
         "url":"http://www.tandfonline.com/doi/abs/10.1080/15424060903167229",
         "sessionid":"abc123"
       }
-  Format:
-    type: string
-    example: ris
-    enum:
-      - bibtex
-      - bookmarks
-      - coins
-      - mods
-      - refer
-      - rdf_bibliontology
-      - rdf_dc
-      - rdf_zotero
-      - ris
-      - tei
-      - wikipedia
   File:
     type: string
     example: |
