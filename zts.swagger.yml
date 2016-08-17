@@ -23,6 +23,7 @@ produces:
 paths:
   '{{{ SIMPLEAPI_BASEPATH }}}/':
     get:
+      tags: ['Simple Scraper API']
       summary: Retrieve bibliographic data as JSON scraped from a URI
       description: |
         Combines the `/web` and `/export` endpoints to let the consumer define the desired output format
@@ -35,8 +36,22 @@ paths:
           in: query
           type: string
           pattern: uri
+  '{{{ SIMPLEAPI_BASEPATH }}}/cache':
+    get:
+      tags: ['Simple Scraper API']
+      summary: Get cache size
+      responses:
+        200:
+          description: Number of cached entries
+    delete:
+      tags: ['Simple Scraper API']
+      summary: Empty the cache
+      responses:
+        200:
+          description: Deleted cache successfully
   '{{{ ZTS_BASEPATH }}}/refresh':
     get:
+      tags: ['Zotero Translation Server API']
       summary: Refreshes the translator directory
       description: |
         <del>Refreshes the translator directory by calling git.</del> Translators are managed on the level of
@@ -48,6 +63,7 @@ paths:
           description: Failure, depending upon git exit status
   '{{{ ZTS_BASEPATH }}}/web':
     post:
+      tags: ['Zotero Translation Server API']
       summary: Translates a web page
       parameters:
         - 
@@ -62,6 +78,7 @@ paths:
           description: Ok
   '{{{ ZTS_BASEPATH }}}/import':
     post:
+      tags: ['Zotero Translation Server API']
       summary: Converts input in any format Zotero can import to items in Zotero server JSON format
       parameters:
         -
@@ -76,6 +93,7 @@ paths:
           description: Ok
   '{{{ ZTS_BASEPATH }}}/export':
     post:
+      tags: ['Zotero Translation Server API']
       summary: Converts input in Zotero server JSON format to items Zotero can import
       parameters:
         -
