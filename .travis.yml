@@ -6,6 +6,7 @@ services:
   - docker
 
 script:
+  - npm test
   - docker-compose up -d
   - sleep 10
   - ./integration-test/tsht
