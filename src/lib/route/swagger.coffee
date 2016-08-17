@@ -1,3 +1,4 @@
+require '../env'
 Fs = require 'fs'
 Mustache = require 'mustache'
 RootPath = require 'app-root-path'
