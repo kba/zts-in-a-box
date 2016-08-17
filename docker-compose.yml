@@ -3,9 +3,7 @@ services:
   zts-simpleapi:
     container_name: 'zts-simpleapi-app'
     build: '.'
-    restart: 'on-failure'
-    # volumes:
-    #   - './src:/app/src'
+    restart: 'always'
     ports:
       - '1970:1970'
     depends_on:
@@ -16,6 +14,14 @@ services:
       BASEPATH: '/'
       ZTS_URI: 'http://zts-app:1969'
       SWAGGER_URI: 'http://zts-swagger-app:8888'
+      SIMPLEAPI_CACHE_ENABLED: 'true'
+    # <dev>
+    # volumes:
+    #   - './src:/app/src'
+    #   - './node_modules:/app/node_modules'
+    #   - './zts.swagger.yml:/app/zts.swagger.yml'
+    # command: npm run watch
+    # </dev>
   zts:
     container_name: 'zts-app'
     image: 'kbai/zts:46.0'
