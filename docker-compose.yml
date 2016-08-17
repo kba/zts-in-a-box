@@ -10,6 +10,7 @@ services:
       - 'zts'
       - 'zts-swagger'
     environment:
+      # Replace this with the **external** host IP, i.e. what you type into your browser's address bar
       HOST_AND_PORT: 'localhost:1970'
       BASEPATH: '/'
       ZTS_URI: 'http://zts-app:1969'
