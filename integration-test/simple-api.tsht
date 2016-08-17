@@ -1,0 +1,7 @@
+#!/usr/bin/env tsht
+
+api=http://localhost:1970
+
+doi=10.1038/371749a0
+
+equals $(curl -s "$api/simple/?format=doi&url=http://doi.org/$doi") "$doi" "'format=doi' $doi"

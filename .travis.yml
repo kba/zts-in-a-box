@@ -1,1 +1,11 @@
 language: node_js
+
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker-compose up -d
+  - sleep 10
+  - ./integration-test/tsht
