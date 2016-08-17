@@ -6,7 +6,8 @@ process.env.ZTS_BASEPATH       or= '/zts'
 process.env.ZTS_SESSION        or= 'foo-123'
 process.env.ZTS_URI            or= 'http://localhost:1969'
 process.env.SIMPLEAPI_BASEPATH or= '/simple'
-if 'SIMPLEAPI_CACHE_ENABLED' of process.env and process.env.SIMPLEAPI_CACHE_ENABLED in ['true', 1, true]
-	process.env.SIMPLEAPI_CACHE_ENABLED = true
-# XXX hardcoded
-process.env.CACHE_ENABLED = true
+process.env.CACHE_DIR          or= '/tmp/zts-cache'
+if process.env.SIMPLEAPI_CACHE_ENABLED in ['true', '1']
+	process.env.SIMPLEAPI_CACHE_ENABLED=true
+else
+	delete process.env.SIMPLEAPI_CACHE_ENABLED

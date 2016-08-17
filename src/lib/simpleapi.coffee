@@ -1,71 +1,70 @@
 require './env'
 express = require('express')
 request = require('superagent')
-cache = {}
+cache = new(require('./cache'))
 
 module.exports = route = new express.Router()
 
-route.get '/restart', ->
-	console.log 'Deliberately Exiting with code 10'
-	process.exit 10
+route.get '/cache', (req, res, next) ->
+	cache.size (err, cacheSize) ->
+		return next err if err
+		res.statusCode = 200
+		res.set 'content-type', 'text/plain'
+		res.send "#{cacheSize}"
+
+route.delete '/cache', (req, res, next) ->
+	cache.clear (err, nrRemoved) ->
+		return next err if err
+		res.statusCode = 200
+		res.set 'content-type', 'text/plain'
+		res.send "#{nrRemoved}"
 
 route.get '/', (req, res, next) ->
 	url = req.query.url
-	if !url
-		return next('ERROR: Must specify url')
-	format = req.query.format or 'ris'
-	cache[url] = cache[url] or {}
-	if process.env.SIMPLEAPI_CACHE_ENABLED and cache[url] and cache[url][format]
-		cached = cache[url][format]
-		console.log 'In cache:  ' + format + ' / ' + url
-		res.statusCode = cached[0]
-		res.set 'Content-Type', cached[1]
-		res.send cached[2]
-		return
-	console.log 'Passing to zotero translation server: ' + url
-	request.post("#{process.env.ZTS_URI}/web").send(
-		'url': url
-		'sessionid': process.env.ZTS_SESSION).end (err, resp) ->
-		doiMode = format == 'doi'
-		if err
-			cache[url][if doiMode then 'doi' else format] = [
-				500
-				'text/plain'
-				err.toString()
-			]
-			return next(err)
-		console.log '=============================================================================='
-		console.log resp.body
-		console.log '=============================================================================='
-		if doiMode
-			format = 'ris'
-		request.post("#{process.env.ZTS_URI}/export?format=#{format}").buffer(true).send(resp.body).end (err, resp) ->
-			`var cached`
-			if err
-				cache[url][if doiMode then 'doi' else format] = [
-					500
-					'text/plain'
-					err.toString()
-				]
-				return next(err)
-			contentType = if doiMode then 'text/plain' else resp.headers['content-type']
-			statusCode = resp.statusCode
-			text = resp.text
-			if doiMode
-				m = resp.text.match(/DO\s+-\s+(.*)/)
-				if !m
-					statusCode = 404
-				else
-					text = m[1]
-				format = 'doi'
-			cached = cache[url][format] = [
-				statusCode
-				contentType
-				text
-			]
-			res.statusCode = cached[0]
-			res.set 'Content-Type', cached[1]
-			res.send cached[2]
-			return
-		return
-	return
+	format = req.query.format
+	return next("Must specify 'url'") unless url
+	return next("Must specify 'format'") unless format
+	cache.get url, format, (err, statusCode, contentType, text) ->
+		unless err
+			console.log "Found in cache: ", [statusCode, contentType, text.length]
+			res.statusCode = statusCode
+			res.header 'content-type', contentType
+			return res.send text
+		console.log "Not in cache, passing to zotero translation server"
+		request
+			.post("#{process.env.ZTS_URI}/web")
+			.send
+				'url': url
+				'sessionid': process.env.ZTS_SESSION
+			.end (err, resp) ->
+				doiMode = format is 'doi'
+				if err
+					console.error "/web threw", err
+					return cache.put url, format, 500, 'text/plain', err.toString(), -> next(err)
+				if doiMode
+					format = 'ris'
+				request
+					.post("#{process.env.ZTS_URI}/export?format=#{format}")
+					.buffer(true)
+					.send(resp.body[0])
+					.end (err, resp) ->
+						if err
+							console.error "/export threw", err
+							return cache.put url, format, 500, 'text/plain', err.toString(), -> next(err)
+						contentType = resp.headers['content-type']
+						console.log "Content Type: #{contentType}"
+						statusCode = resp.statusCode
+						text = resp.text
+						if doiMode
+							format = 'doi'
+							contentType = 'text/x-doi'
+							m = resp.text.match(/DO\s+-\s+(.*)/)
+							if m
+								text = m[1]
+							else
+								statusCode = 404
+						cache.put url, format, statusCode, contentType, text, (err) ->
+							return next err if err
+							res.statusCode = statusCode
+							res.set 'content-type', contentType
+							res.send text
