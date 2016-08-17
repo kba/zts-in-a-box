@@ -5,12 +5,13 @@
   "main": "lib/server.js",
   "scripts": {
     "clean": "rm -rf lib test",
-    "compile": "coffee -o . src",
-    "test": "coffee test/*.js",
+    "test": "node test/*.js",
+    "start": "node lib/server.js",
+    "watch": "nodemon --exitcrash -w src -e coffee,yml src/lib/server.coffee",
+    "pretest": "npm run compile",
     "prestart": "npm run compile",
     "prepublish": "npm run compile",
-    "start": "node lib/server.js",
-    "watch": "nodemon --exitcrash -w src -e coffee,yml src/lib/server.coffee"
+    "compile": "coffee -o . src"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "traf": "0.0.9"
   },
   "devDependencies": {
+    "ajv": "^4.5.0",
     "nodemon": "^1.10.0",
     "supertest": "^2.0.0",
     "tape": "^4.6.0"
