@@ -31,5 +31,5 @@ services:
     image: 'sjeandeaux/docker-swagger-ui'
     container_name: 'zts-swagger-app'
     environment:
-      API_URL: '/swagger/json'
+      API_URL: 'swagger/json'
 
