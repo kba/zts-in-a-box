@@ -10,7 +10,7 @@ process.env.HOST_AND_PORT = 'example.org:32'
 process.env.BASEPATH = '/'
 
 app = require('express')()
-app.use(require '../lib/swagger')
+app.use(require '../lib/route/swagger')
 swaggerSchema = 'https://rawgit.com/OAI/OpenAPI-Specification/master/schemas/v2.0/schema.json'
 
 Test 'Valid swagger', (t) ->
