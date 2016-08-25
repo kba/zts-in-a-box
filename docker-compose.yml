@@ -27,7 +27,7 @@ services:
     container_name: 'zts-app'
     image: 'kbai/zts:46.0'
     volumes:
-      - './translators:/opt/zts/modules/zotero/translators'
+      - '${PWD}/translators:/opt/zts/modules/zotero/translators'
   zts-swagger:
     image: 'sjeandeaux/docker-swagger-ui'
     container_name: 'zts-swagger-app'
