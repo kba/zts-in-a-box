@@ -18,6 +18,9 @@ if [[ ! -e .env ]];then
   exit 2
 fi
 
+# Source the current environment
+. .env
+
 ZTS_HOST="$(docker-machine ip "$DOCKER_MACHINE"):${ZTS_PORT}"
 
 loginfo "Setting ZTS_HOST to '$ZTS_HOST'"
