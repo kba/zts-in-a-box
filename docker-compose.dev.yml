@@ -1,0 +1,19 @@
+version: '2'
+services:
+  zts-simpleapi:
+    extends:
+      file: 'docker-compose.yml'
+      service: 'zts-simpleapi'
+    volumes:
+      - './src:/app/src'
+      - './node_modules:/app/node_modules'
+      - './zts.swagger.yml:/app/zts.swagger.yml'
+    command: 'npm run watch'
+  zts:
+    extends:
+      file: 'docker-compose.yml'
+      service: 'zts'
+  zts-swagger:
+    extends:
+      file: 'docker-compose.yml'
+      service: 'zts-swagger'
