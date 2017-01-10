@@ -9,12 +9,13 @@ app.use morgan
 
 app.use process.env.SWAGGER_BASEPATH, require('./route/swagger')
 app.use process.env.SIMPLEAPI_BASEPATH, require('./route/simpleapi')
+console.log("Proxying ZTS_BASEPATH #{process.env.ZTS_BASEPATH} --> 'http://zts-app:1969'")
 app.use process.env.ZTS_BASEPATH, proxy(
 	target: 'http://zts-app:1969'
 	pathRewrite: "#{process.env.ZTS_BASEPATH}": '/'
 	changeOrigin: false
 )
-app.use process.env.BASEPATH, proxy(target: 'http://zts-swagger-app:8888/swagger-ui', changeOrigin: true)
+app.use '/', proxy(target: 'http://zts-swagger-app:8888/swagger-ui', changeOrigin: true)
 
 app.use (err, req, res, next) ->
 	console.log "Failed request #{err}"

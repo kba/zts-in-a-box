@@ -114,6 +114,10 @@ The port that will forward to the internal port.
 
 No need to change this unless the default **1970** is already taken on the host.
 
+### `BASEPATH`
+
+Default: **`/`**
+
 ### `ZTS_HOST`
 
 Default: **`ZTS_HOST`**
@@ -186,22 +190,40 @@ ZTS_HOST=192.168.99.100:1970
 The application is then available at
 [http://192.168.99.100:1970](http://192.168.99.100:1970).
 
-#### Hosted
+### `ENABLE_CACHE`
+
+Default: **`true`**
+
+If enabled, zts-in-a-box will cache requests to the
+[Simple Scraper API](http://localhost:1970/#!/Simple_Scraper_API). This vastly
+reduces network traffic and computing power for possibly redundant requests. If
+the same URL is to be scraped and exported to the same format, the cached
+results are returned right away.
+
+You can empty the cache by running a `DELETE` request to
+`$ZTS_HOST/simple/cache` without completely disabling it.
+
+The only reason why you would **not** want result caching is if you are
+developing / debugging a translator.
+
+## Hosting zts-in-a-box
 
 If you want to run zts-in-a-box on a server that should be accessible on the
-Internet, set `ZTS_HOST` to the base URL from where it will be accessible.
+Internet, set `ZTS_HOST` to the host and por from where it will be accessible
+and `BASEPATH` to the base URL of the application.
 
 Suppose you are running a web server on `mybox.tld` and zts-in-a-box should be
 accessible at  `/zotero/`, then you should adapt [`.env`](./.env) to contain
 
 ```sh
-ZTS_HOST=http://mybox.tld/zotero/
+ZTS_HOST=mybox.tld
+BASEPATH=/zotero
 ```
 
 You still will need to forward traffic on incoming port `80` to/from the
 [`ZTS_PORT`](#zts_port), which defaults to `1970`.
 
-##### Apache
+### Apache
 
 ```apache
   <Location /zotero/>
@@ -210,7 +232,7 @@ You still will need to forward traffic on incoming port `80` to/from the
   </Location>
 ```
 
-##### nginx
+### nginx
 
 ```nginx
 server {
@@ -228,22 +250,6 @@ server {
     }
 }
 ```
-
-### `ENABLE_CACHE`
-
-Default: **`true`**
-
-If enabled, zts-in-a-box will cache requests to the
-[Simple Scraper API](http://localhost:1970/#!/Simple_Scraper_API). This vastly
-reduces network traffic and computing power for possibly redundant requests. If
-the same URL is to be scraped and exported to the same format, the cached
-results are returned right away.
-
-You can empty the cache by running a `DELETE` request to
-`$ZTS_HOST/simple/cache` without completely disabling it.
-
-The only reason why you would **not** want result caching is if you are
-developing / debugging a translator.
 
 ## Usage
 

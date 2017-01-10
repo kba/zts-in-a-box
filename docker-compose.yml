@@ -8,7 +8,7 @@ services:
       - '${ZTS_PORT}:1970'
     environment:
       HOST_AND_PORT: '${ZTS_HOST}'
-      BASEPATH: '/'
+      BASEPATH: '${BASEPATH}'
       ZTS_URI: 'http://zts-app:1969'
       SWAGGER_URI: 'http://zts-swagger-app:8888'
       SIMPLEAPI_CACHE_ENABLED: '${ENABLE_CACHE}'

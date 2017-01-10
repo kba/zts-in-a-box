@@ -3,11 +3,10 @@ swagger: '2.0'
 #   INFO   #
 ############
 info:
-  version: "0.0.0"
+  version: "0.1.0"
   title: Translation Server API
   description: |
-    https://github.com/zotero/translation-server
-    by zuphilip
+    See https://github.com/kba/zts-in-a-box
 schemes:
   - http
 host: '{{{ HOST_AND_PORT }}}'
@@ -51,7 +50,9 @@ paths:
           pattern: uri
       responses:
         200:
-          description: Formatted bibliographic record(s)
+          description: Successfully scraped data froma URI
+          schema:
+            description: Formatted bibliographic record(s)
   '{{{ SIMPLEAPI_BASEPATH }}}/cache':
     get:
       tags: ['Simple Scraper API']

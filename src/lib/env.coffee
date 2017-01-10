@@ -1,4 +1,6 @@
+# Host and port of the HOST machine (external machine, hosting the simpleapi)
 process.env.HOST_AND_PORT      or= "localhost:1970"
+# Base path of the HOST machine mapping
 process.env.BASEPATH           or= '/'
 process.env.SWAGGER_BASEPATH   or= '/swagger'
 process.env.SWAGGER_URI        or= 'http://localhost:8888'
