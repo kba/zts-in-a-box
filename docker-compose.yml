@@ -14,11 +14,13 @@ services:
       SIMPLEAPI_CACHE_ENABLED: '${ENABLE_CACHE}'
   zts:
     container_name: 'zts-app'
+    restart: 'always'
     image: '${ZTS_DOCKER_IMAGE}:${ZTS_DOCKER_TAG}'
     volumes:
       - '${PWD}/translators:/opt/zts/modules/zotero/translators'
   zts-swagger:
     image: 'sjeandeaux/docker-swagger-ui'
+    restart: 'always'
     container_name: 'zts-swagger-app'
     environment:
       API_URL: 'swagger/json'
