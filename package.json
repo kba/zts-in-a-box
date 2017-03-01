@@ -39,7 +39,7 @@
   "devDependencies": {
     "ajv": "^4.5.0",
     "nodemon": "^1.10.0",
-    "supertest": "^2.0.0",
+    "supertest": "^3.0.0",
     "tape": "^4.6.0"
   }
 }
